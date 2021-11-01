@@ -49,6 +49,8 @@ or
 
 ![](images/2021-11-01-09-39-49.png)
 
+An alternative solution would be a single untrust interface on the summarisation NVA, but a more granular NVA. E.g. 10.1.0.0/16 > orange, 172.16.0.0/16 > green.
+
 **4. Utilise Azure LB if running multiple pairs of SDWAN NVA. This assumes SDWAN NVA are stateless. A/S design if they are stateful (firewall state without table sync etc)**
 
 ![](images/2021-11-01-09-43-05.png)

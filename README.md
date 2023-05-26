@@ -2,7 +2,7 @@
 
 # Summary
 
-When using Azure Route Server (ARS), with the branch to branch flag enabled, to advertise prefixes to ExpressRoute or VPN connected locations, there is an upper limit of 200 prefixes. This can be problematic if you are attaching large SDWAN networks via an appliance that lacks route summarisation functions.
+When using Azure Route Server (ARS), with the branch to branch flag enabled, to advertise prefixes to ExpressRoute or VPN connected locations, there is an upper limit of 1000 prefixes. This can be problematic if you are attaching large SDWAN networks via an appliance that lacks route summarisation functions.
 
 ![](images/2021-10-20-10-54-31.png)
 
@@ -15,13 +15,15 @@ When connecting your NVA to Azure Route Server there are some [limits](https://d
 | Resource | Limit |  
 | ------------- | ------------- |  
 | Number of routes each BGP peer can advertise to Azure Route Server | 1000 |   
-| Number of routes that Azure Route Server can advertise to ExpressRoute or VPN gateway  | 200 |   
+| Number of routes that Azure Route Server can advertise to ExpressRoute or VPN gateway  | 1000* |   
 
-I.e. Your NVA can advertise 1000 prefixes to ARS if you are simply using it for injection of prefixes in to Azure Virtual Networks. However, if you enable the branch-to-branch toggle, advertising NVA prefises to VPN and ER Gateways, this limit is reduced to 200.
+I.e. Your NVA can advertise 8*1000 prefixes to ARS if you are simply using it for injection of prefixes in to Azure Virtual Networks. However, if you enable the branch-to-branch toggle, advertising NVA prefises to VPN and ER Gateways, this limit is reduced to *1000.
 
 ![](images/2021-11-01-09-14-37.png)
 
-Therefore if you have in excess of 200 prefixes within your SDWAN, summarisation needs to be performed if you required this branch-to-branch transit functionality. This summarisaiton needs to occur either at your SDWAN NVA, as Azure Route Server does not support route-filtering or summarisation today.
+Therefore if you have in excess of *1000 prefixes within your SDWAN, summarisation needs to be performed if you required this branch-to-branch transit functionality. This summarisaiton needs to occur either at your SDWAN NVA, as Azure Route Server does not support route-filtering or summarisation today.
+
+> * NB. This limit used to be 200, and was removed in January 2023 (Link to doc update: https://github.com/MicrosoftDocs/azure-docs/commit/9861aa8ce7ba8e492a552f52ec6254c5dccb7b86) which in effect moved the upper bound to the max prefixes ExpressRoute can recieve from a gateway which is 1000 per connection.
 
 # Solution
 
